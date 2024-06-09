@@ -10,4 +10,6 @@ public class Group3ItInformationSecurityApplication {
 		SpringApplication.run(Group3ItInformationSecurityApplication.class, args);
 	}
 
+
+	// Jonas was here
 }
