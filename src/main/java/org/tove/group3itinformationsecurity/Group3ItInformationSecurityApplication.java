@@ -9,6 +9,7 @@ public class Group3ItInformationSecurityApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(Group3ItInformationSecurityApplication.class, args);
 	}
-
 	//Tove was here
+
+	// Jonas was here
 }
