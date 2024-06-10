@@ -56,9 +56,5 @@ public class Config {
         userDetailsService.createUser(user);
 
         return userDetailsService;
-
-
     }
-
-
 }
