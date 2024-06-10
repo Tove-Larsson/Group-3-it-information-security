@@ -17,11 +17,18 @@ public class Config {
                         auth
                                 .anyRequest().authenticated()
                 )
-                .formLogin(formlogin ->
-                        formlogin
+                .formLogin(formLogin ->
+                        formLogin
                                 .defaultSuccessUrl("/", true)
                                 .failureUrl("/login?error=true")
-                                .permitAll());
+                                .permitAll()
+                )
+                .logout(logout ->
+                        logout
+                                .logoutUrl("/perform_logout")
+                                .logoutSuccessUrl("/login")
+                                .permitAll()
+                );
 
         return http.build();
 
