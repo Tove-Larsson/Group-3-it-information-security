@@ -25,7 +25,10 @@ public class Config {
         http
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers("/register", "register_success").hasRole("ADMIN")
+                                .requestMatchers(
+                                        "/register",
+                                        "/register_success",
+                                        "/admin").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
