@@ -1,18 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
     <title>Register</title>
+
+    <style type="text/css">
+        label {
+            display: inline-block;
+            width: 200px;
+            margin: 5px;
+            text-align: left;
+        }
+        input[type=text], input[type=password], select {
+            display: inline-block;
+            width: 200px;
+        }
+        input[type=radio] {
+            margin-left: 45px;
+        }
+        input[type=checkbox] {
+            margin-right: 190px;
+        }
+        button {
+            padding: 5px;
+            margin: 10px;
+            color: whitesmoke;
+            background-color: steelblue;
+            border-radius: 5px;
+        }
+        span {
+            color: red;
+            font-style: italic;
+        }
+    </style>
+
 </head>
 <body>
 
-Register here!
+Register here! <br>
 
-<form action="">
+<form action="#" th:action="@{/register}" method="post" th:object="${user}">
 
     <label>Email:</label>
+    <input type="email" th:field="*{email}"> <br>
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</span> <br>
 
     <label>Password:</label>
+    <input type="password" th:field="*{password}"> <br>
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</span> <br>
+
+    <button type="submit">Register</button>
 
 </form>
 
