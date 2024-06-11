@@ -52,4 +52,9 @@ public class WebController {
         return "register_success";
 
     }
+
+    @GetMapping("/logout_success")
+    public String logOutSuccess() {
+        return "/logout_success";
+    }
 }
