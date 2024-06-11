@@ -25,6 +25,11 @@ public class WebController {
         this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
     }
 
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
+
     @GetMapping("/register")
     public String register(Model model) {
 
