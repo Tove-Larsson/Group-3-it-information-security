@@ -28,7 +28,10 @@ public class Config {
                                 .requestMatchers(
                                         "/register",
                                         "/register_success",
-                                        "/admin").hasRole("ADMIN")
+                                        "/admin",
+                                        "remove_user",
+                                        "remove_user_success",
+                                        "remove_user_failed").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
