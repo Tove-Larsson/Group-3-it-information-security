@@ -25,6 +25,7 @@ public class Config {
         http
                 .authorizeHttpRequests(auth ->
                         auth
+                                .requestMatchers("/register", "register_success").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
@@ -36,7 +37,7 @@ public class Config {
                 .logout(logout ->
                         logout
                                 .logoutUrl("/perform_logout")
-                                .logoutSuccessUrl("/login")
+                                .logoutSuccessUrl("/logout_success")
                                 .permitAll()
                 );
 
