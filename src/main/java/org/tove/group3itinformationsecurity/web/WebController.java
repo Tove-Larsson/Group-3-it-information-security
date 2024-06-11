@@ -20,21 +20,33 @@ public class WebController {
     InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
 
+
     public WebController(PasswordEncoder passwordEncoder, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
         this.passwordEncoder = passwordEncoder;
         this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
     }
 
+
     @GetMapping("/admin")
     public String admin() {
         return "admin";
     }
+    @GetMapping("/remove_user")
+    public String removeUser() {
+        return "remove_user";
+    }
+    @GetMapping("/remove_user_success")
+    public String removeUserSuccess() {
+        return "remove_user_success";
+    }
+    @GetMapping("/remove_user_failed")
+    public String removeUserFailed() {
+        return "remove_user_failed";
+    }
 
     @GetMapping("/register")
     public String register(Model model) {
-
         model.addAttribute("user", new UserDTO());
-
         return "register";
     }
 
@@ -44,7 +56,6 @@ public class WebController {
         if (bindingResult.hasErrors()) return "register";
 
         String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
-
         UserDetails user = User.builder()
                 .username(userDTO.getEmail())
                 .password(encodedPassword)
