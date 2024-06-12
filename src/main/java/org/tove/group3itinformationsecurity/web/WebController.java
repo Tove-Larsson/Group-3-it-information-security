@@ -1,6 +1,8 @@
 package org.tove.group3itinformationsecurity.web;
 
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,12 +15,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.util.HtmlUtils;
 import org.tove.group3itinformationsecurity.dto.UserDTO;
+import org.tove.group3itinformationsecurity.utils.MaskingUtils;
 
 @Controller
 public class WebController {
 
     PasswordEncoder passwordEncoder;
     InMemoryUserDetailsManager inMemoryUserDetailsManager;
+
+    private static final Logger logger = LoggerFactory.getLogger(WebController.class);
 
 
 
@@ -30,11 +35,13 @@ public class WebController {
 
     @GetMapping("/admin")
     public String admin() {
+        logger.debug("Going to admin page");
         return "admin";
     }
     @GetMapping("/remove_user")
     public String removeUser(Model model) {
         model.addAttribute("user", new UserDTO());
+        logger.debug("Going to remove user page (only available for admin)");
         return "remove_user";
     }
 
@@ -42,16 +49,18 @@ public class WebController {
     public String removeUserForm(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
 
         if (bindingResult.hasFieldErrors("email")) {
-            System.out.println("Bindingresult" + bindingResult);
+            System.out.println("Bindingresult: " + bindingResult);
             return "remove_user";
         }
 
         String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
 
         if (!inMemoryUserDetailsManager.userExists(escapedEmail)) {
+            logger.warn("The user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " could not be found");
             return "remove_user_failed";
         }
         // Add username / email in the html in user_removed
+        logger.debug("The action of removing the user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " is in process");
         inMemoryUserDetailsManager.deleteUser(escapedEmail);
 
         return "remove_user_success";
@@ -60,6 +69,7 @@ public class WebController {
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("user", new UserDTO());
+        logger.debug("Going to register user page(only available for admin)");
         return "register";
     }
 
@@ -82,12 +92,15 @@ public class WebController {
         // Add username / email in the html in register_success
         model.addAttribute("registeredUser", user);
 
+        logger.debug("Registered a new user with email: " + MaskingUtils.anonymize(userDTO.getEmail()));
+
         return "register_success";
 
     }
 
     @GetMapping("/logout_success")
     public String logOutSuccess() {
+        logger.debug("Logged out successfully");
         return "/logout_success";
     }
 }
