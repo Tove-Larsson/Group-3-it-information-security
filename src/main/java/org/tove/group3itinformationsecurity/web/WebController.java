@@ -69,7 +69,9 @@ public class WebController {
         if (bindingResult.hasErrors()) return "register";
 
         String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
-        String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
+        String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
+
+        String encodedPassword = passwordEncoder.encode(escapedPassword);
 
         UserDetails user = User.builder()
                 .username(escapedEmail)
