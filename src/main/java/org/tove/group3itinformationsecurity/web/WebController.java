@@ -32,6 +32,12 @@ public class WebController {
         this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
     }
 
+    @GetMapping("/")
+    public String firstPage() {
+        logger.debug("Going to first page");
+        return "index";
+    }
+
 
     @GetMapping("/admin")
     public String admin() {
