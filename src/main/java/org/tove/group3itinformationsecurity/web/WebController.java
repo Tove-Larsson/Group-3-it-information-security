@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.util.HtmlUtils;
 import org.tove.group3itinformationsecurity.dto.UserDTO;
 
 @Controller
@@ -45,11 +46,13 @@ public class WebController {
             return "remove_user";
         }
 
-        if (!inMemoryUserDetailsManager.userExists(userDTO.getEmail())) {
+        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
+
+        if (!inMemoryUserDetailsManager.userExists(escapedEmail)) {
             return "remove_user_failed";
         }
         // Add username / email in the html in user_removed
-        inMemoryUserDetailsManager.deleteUser(userDTO.getEmail());
+        inMemoryUserDetailsManager.deleteUser(escapedEmail);
 
         return "remove_user_success";
     }
@@ -65,9 +68,13 @@ public class WebController {
 
         if (bindingResult.hasErrors()) return "register";
 
-        String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
+        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
+        String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
+
+        String encodedPassword = passwordEncoder.encode(escapedPassword);
+
         UserDetails user = User.builder()
-                .username(userDTO.getEmail())
+                .username(escapedEmail)
                 .password(encodedPassword)
                 .roles("USER")
                 .build();
