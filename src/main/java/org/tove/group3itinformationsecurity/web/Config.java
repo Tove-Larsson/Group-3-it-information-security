@@ -2,6 +2,7 @@ package org.tove.group3itinformationsecurity.web;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -33,13 +34,18 @@ public class Config {
                                         "remove_user_success",
                                         "remove_user_failed").hasRole("ADMIN")
                                 .anyRequest().authenticated()
+
                 )
+                .httpBasic(Customizer.withDefaults())
+                /*
+
                 .formLogin(formLogin ->
                         formLogin
                                 .defaultSuccessUrl("/", true)
                                 .failureUrl("/login?error=true")
                                 .permitAll()
                 )
+                 */
                 .logout(logout ->
                         logout
                                 .logoutUrl("/perform_logout")
