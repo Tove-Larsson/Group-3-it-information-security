@@ -37,6 +37,23 @@ public class WebController {
         return "remove_user";
     }
 
+    @PostMapping("/remove_user")
+    public String removeUserForm(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
+
+        if (bindingResult.hasFieldErrors("email")) {
+            System.out.println("Bindingresult" + bindingResult);
+            return "remove_user";
+        }
+
+        if (!inMemoryUserDetailsManager.userExists(userDTO.getEmail())) {
+            return "remove_user_failed";
+        }
+        // Add username / email in the html in user_removed
+        inMemoryUserDetailsManager.deleteUser(userDTO.getEmail());
+
+        return "remove_user_success";
+    }
+
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("user", new UserDTO());
@@ -55,7 +72,7 @@ public class WebController {
                 .roles("USER")
                 .build();
         inMemoryUserDetailsManager.createUser(user);
-
+        // Add username / email in the html in register_success
         model.addAttribute("registeredUser", user);
 
         return "register_success";
