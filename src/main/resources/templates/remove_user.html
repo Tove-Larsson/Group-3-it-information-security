@@ -3,9 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Remove user</title>
+    <style>
+        span {
+            color: red;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
-Remove User: <br>
+
+<form action="#" th:action="@{/remove_user}" method="post" th:object="${user}">
+
+    <h3>Remove User:</h3>
+
+    <label>User email:</label>
+    <input type="email" th:field="*{email}"> <br>
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</span>
+
+    <button type="submit">Remove User</button>
+
+
+
+
+
+</form>
 
 
 

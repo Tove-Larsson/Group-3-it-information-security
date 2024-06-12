@@ -32,16 +32,9 @@ public class WebController {
         return "admin";
     }
     @GetMapping("/remove_user")
-    public String removeUser() {
+    public String removeUser(Model model) {
+        model.addAttribute("user", new UserDTO());
         return "remove_user";
-    }
-    @GetMapping("/remove_user_success")
-    public String removeUserSuccess() {
-        return "remove_user_success";
-    }
-    @GetMapping("/remove_user_failed")
-    public String removeUserFailed() {
-        return "remove_user_failed";
     }
 
     @GetMapping("/register")
