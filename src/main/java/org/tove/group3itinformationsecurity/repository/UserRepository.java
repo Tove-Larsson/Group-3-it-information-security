@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.tove.group3itinformationsecurity.model.AppUser;
 
 @Repository
-public interface userRepository extends JpaRepository<AppUser, Long> {
+public interface UserRepository extends JpaRepository<AppUser, Long> {
 
     AppUser findByEmail(String email);
 

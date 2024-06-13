@@ -25,7 +25,9 @@ import org.tove.group3itinformationsecurity.utils.MaskingUtils;
 @Controller
 public class UserManagementController {
 
+
     PasswordEncoder passwordEncoder;
+
     InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
     private static final Logger logger = LoggerFactory.getLogger(UserManagementController.class);
