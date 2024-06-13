@@ -19,14 +19,14 @@ import org.tove.group3itinformationsecurity.utils.MaskingUtils;
 
 
 @Controller
-public class WebController {
+public class UserManagementController {
 
     PasswordEncoder passwordEncoder;
     InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
-    private static final Logger logger = LoggerFactory.getLogger(WebController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserManagementController.class);
 
-    public WebController(PasswordEncoder passwordEncoder, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
+    public UserManagementController(PasswordEncoder passwordEncoder, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
         this.passwordEncoder = passwordEncoder;
         this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
     }
