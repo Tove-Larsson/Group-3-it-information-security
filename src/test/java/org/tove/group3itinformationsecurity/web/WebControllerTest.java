@@ -13,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -23,23 +26,20 @@ class WebControllerTest {
 
     @Autowired
     private MockMvc mvc;
+    @Autowired
+    private InMemoryUserDetailsManager userDetailsManager;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    private InMemoryUserDetailsManager userDetailsManagerWithUser() {
-        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-
+    
+    private void addUserToInMemory(String username, String password, String roles) {
         UserDetails user = User.builder()
-                .username("gleissman@gmail.com")
-                .password(passwordEncoder().encode("java23"))
-                .roles("USER")
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .roles(roles)
                 .build();
-        userDetailsService.createUser(user);
-        return userDetailsService;
+        this.userDetailsManager.createUser(user);
     }
-
 
     @Test
     @WithMockUser
@@ -76,5 +76,8 @@ class WebControllerTest {
                 .andExpect(view().name("register"))
                 .andExpect(model().attributeHasFieldErrors("user", "email"));
     }
+
+
+
 
 }
