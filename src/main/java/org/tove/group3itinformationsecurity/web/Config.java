@@ -30,7 +30,7 @@ public class Config {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
+//                .csrf(AbstractHttpConfigurer::disable) LÄGG TILLBAKA VID TEST
                 .authorizeHttpRequests(auth ->
                         auth
 
@@ -44,16 +44,16 @@ public class Config {
                                 .anyRequest().authenticated()
 
                 )
-                .httpBasic(Customizer.withDefaults())
-                /*
+                // .httpBasic(Customizer.withDefaults()) LÄGG TILLBAKA VID TEST
 
+                // TA BORT VID TEST
                 .formLogin(formLogin ->
                         formLogin
                                 .defaultSuccessUrl("/", true)
                                 .failureUrl("/login?error=true")
                                 .permitAll()
                 )
-                 */
+
                 .logout(logout ->
                         logout
                                 .logoutUrl("/perform_logout")
