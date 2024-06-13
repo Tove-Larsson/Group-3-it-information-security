@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.util.HtmlUtils;
 import org.tove.group3itinformationsecurity.dto.UserDTO;
+import org.tove.group3itinformationsecurity.repository.UserRepository;
 import org.tove.group3itinformationsecurity.utils.MaskingUtils;
 
 /**
@@ -26,13 +27,15 @@ import org.tove.group3itinformationsecurity.utils.MaskingUtils;
 public class UserManagementController {
 
     PasswordEncoder passwordEncoder;
+    UserRepository userRepository;
     InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
     private static final Logger logger = LoggerFactory.getLogger(UserManagementController.class);
 
-    public UserManagementController(PasswordEncoder passwordEncoder, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
+    public UserManagementController(PasswordEncoder passwordEncoder, InMemoryUserDetailsManager inMemoryUserDetailsManager, UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
         this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/")
