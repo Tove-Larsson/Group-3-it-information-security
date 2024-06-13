@@ -17,7 +17,11 @@ import org.springframework.web.util.HtmlUtils;
 import org.tove.group3itinformationsecurity.dto.UserDTO;
 import org.tove.group3itinformationsecurity.utils.MaskingUtils;
 
-
+/*
+Kontrollerklass för hantering av webbinteraktioner och användarhantering.,
+Innehåller metoder för att navigera och hantera olika sidor och formulär inom applikationen.
+Använder PasswordEncoder för lösenordskryptering och InMemoryUserDetailsManager för användarhantering i minnet.
+ */
 @Controller
 public class UserManagementController {
 
