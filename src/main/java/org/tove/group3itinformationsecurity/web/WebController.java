@@ -96,7 +96,7 @@ public class WebController {
                 .build();
         inMemoryUserDetailsManager.createUser(user);
         // Add username / email in the html in register_success
-        model.addAttribute("registeredUser", user);
+        // model.addAttribute("registeredUser", user);
 
         logger.debug("Registered a new user with email: " + MaskingUtils.anonymize(userDTO.getEmail()));
 
