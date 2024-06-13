@@ -8,6 +8,7 @@ import org.tove.group3itinformationsecurity.utils.MaskingUtils;
 public class Group3ItInformationSecurityApplication {
 
 	public static void main(String[] args) {
+
 		/*
 
 		String socket = MaskingUtils.anonymize("a@test.com");
@@ -19,15 +20,14 @@ public class Group3ItInformationSecurityApplication {
 		String socket2 = MaskingUtils.anonymize("aaa@test.com");
 		System.out.println(socket2);
 
-		String socket3 = MaskingUtils.anonymize("aaaa@test.com");
+		String socket3 = MaskingUtils.anonymize("aaaatest.com");
 		System.out.println(socket3);
-		*/
+
+		 */
 
 
 		SpringApplication.run(Group3ItInformationSecurityApplication.class, args);
 	}
-
-
 
 }
 

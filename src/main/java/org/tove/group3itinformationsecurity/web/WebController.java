@@ -17,6 +17,7 @@ import org.springframework.web.util.HtmlUtils;
 import org.tove.group3itinformationsecurity.dto.UserDTO;
 import org.tove.group3itinformationsecurity.utils.MaskingUtils;
 
+
 @Controller
 public class WebController {
 
@@ -24,8 +25,6 @@ public class WebController {
     InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
     private static final Logger logger = LoggerFactory.getLogger(WebController.class);
-
-
 
     public WebController(PasswordEncoder passwordEncoder, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
         this.passwordEncoder = passwordEncoder;
@@ -38,12 +37,12 @@ public class WebController {
         return "index";
     }
 
-
     @GetMapping("/admin")
     public String admin() {
         logger.debug("Going to admin page");
         return "admin";
     }
+
     @GetMapping("/remove_user")
     public String removeUser(Model model) {
         model.addAttribute("user", new UserDTO());
