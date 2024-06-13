@@ -5,6 +5,13 @@ import java.util.stream.IntStream;
 
 public class MaskingUtils {
 
+    /**
+     * Anonymiserar en email adress genom att maskera karaktärerna som kommer innan '@' symbolen.
+     * Den första och sista karaktären innan '@' förblir synlig, medan resterande av karraktärer blir ersatta av asterixer.
+     *
+     * @param email emailadressen som ska anonymiseras
+     * @return den anonymiserade emailadressen, eller den orginella emailen om denne var felaktig
+     */
     public static String anonymize(String email) {
 
         int atIndex = email.indexOf('@');

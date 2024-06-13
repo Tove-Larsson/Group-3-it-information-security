@@ -13,12 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-/*
-Konfigurationsklass för appens inställningar kring säkerhet och hantering av användare.
-Klassen innehåller en PasswordEncoder som krypterar lösenord, en SecurityFilterChain där vi skapar
-regler för åtkomst till olika endpoints samt så skapar vi en user av rollen Admin som sparas InMemory
-*/
-
+/**
+ * Konfigurationsklass för appens inställningar kring säkerhet och hantering av användare.
+ * Klassen innehåller en PasswordEncoder som krypterar lösenord, en SecurityFilterChain där vi skapar
+ * regler för åtkomst till olika endpoints samt så skapar vi en user av rollen Admin som sparas InMemory
+ */
 @EnableWebSecurity
 @Configuration
 public class Config {
