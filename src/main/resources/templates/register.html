@@ -41,6 +41,18 @@ Register here! <br>
 
 <form action="#" th:action="@{/register}" method="post" th:object="${user}">
 
+    <label>First name:</label>
+    <input type="text" th:field="*{firstName}"> <br>
+    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</span> <br>
+
+    <label>Last name:</label>
+    <input type="text" th:field="*{lastName}"> <br>
+    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name error</span> <br>
+
+    <label>Age:</label>
+    <input type="number" th:field="*{age}"> <br>
+    <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age error</span> <br>
+
     <label>Email:</label>
     <input type="email" th:field="*{email}"> <br>
     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</span> <br>
@@ -48,6 +60,10 @@ Register here! <br>
     <label>Password:</label>
     <input type="password" th:field="*{password}"> <br>
     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</span> <br>
+
+    <label>Role:</label>
+    <input type="text" th:field="*{role}"> <br>
+    <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Role error</span> <br>
 
     <button type="submit">Register</button>
 
