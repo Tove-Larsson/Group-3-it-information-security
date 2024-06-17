@@ -57,6 +57,7 @@ public class UserManagementController {
         return "remove_user";
     }
 
+
     @PostMapping("/remove_user")
     public String removeUserForm(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
 
@@ -108,6 +109,13 @@ public class UserManagementController {
 
         return "register_success";
 
+    }
+
+    @GetMapping("/update_user")
+    public String updateUser(Model model) {
+        model.addAttribute("user", new UserDTO());
+        logger.debug("Going to update user page (only available for admin)");
+        return "update_user";
     }
 
     @GetMapping("/logout_success")
