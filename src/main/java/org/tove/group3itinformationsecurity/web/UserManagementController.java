@@ -93,14 +93,20 @@ public class UserManagementController {
         String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
         String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
 
+
+
+
+
         String encodedPassword = passwordEncoder.encode(escapedPassword);
 
-        UserDetails user = User.builder()
-                .username(escapedEmail)
-                .password(encodedPassword)
-                .roles("USER")
-                .build();
-        inMemoryUserDetailsManager.createUser(user);
+        // TODO - H2 FROM HERE
+
+//        UserDetails user = User.builder()
+//                .username(escapedEmail)
+//                .password(encodedPassword)
+//                .roles("USER")
+//                .build();
+//        inMemoryUserDetailsManager.createUser(user);
 
         logger.debug("Registered a new user with email: " + MaskingUtils.anonymize(userDTO.getEmail()));
 
