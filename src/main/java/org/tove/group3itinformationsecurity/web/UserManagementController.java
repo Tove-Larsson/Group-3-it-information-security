@@ -113,6 +113,7 @@ public class UserManagementController {
         appUser.setRole(escapedRole);
 
         userRepository.save(appUser);
+        System.out.println(userRepository.findByEmail(escapedEmail).getFirstName());
 //        UserDetails user = User.builder()
 //                .username(escapedEmail)
 //                .password(encodedPassword)
