@@ -72,7 +72,6 @@ public class UserManagementController {
             logger.warn("The user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " could not be found");
             return "remove_user_failed";
         }
-        // Add username / email in the html in user_removed
         logger.debug("The action of removing the user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " is in process");
         inMemoryUserDetailsManager.deleteUser(escapedEmail);
 
@@ -87,7 +86,7 @@ public class UserManagementController {
     }
 
     @PostMapping("/register")
-    public String registerForm(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult, Model model) {
+    public String registerForm(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) return "register";
 
@@ -102,8 +101,6 @@ public class UserManagementController {
                 .roles("USER")
                 .build();
         inMemoryUserDetailsManager.createUser(user);
-        // Add username / email in the html in register_success
-        // model.addAttribute("registeredUser", user);
 
         logger.debug("Registered a new user with email: " + MaskingUtils.anonymize(userDTO.getEmail()));
 
@@ -118,9 +115,30 @@ public class UserManagementController {
         return "update_user";
     }
 
+    @PostMapping("/update_user")
+    public String updateForm(@Valid @ModelAttribute("user")UserDTO userDTO, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors("email")) return "update_user";
+        if (bindingResult.hasFieldErrors("password")) return "update_user";
+
+        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
+        String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
+
+        String encodedPassword = passwordEncoder.encode(escapedPassword);
+
+        if (!inMemoryUserDetailsManager.userExists(escapedEmail)) {
+            logger.warn("The user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " could not be found");
+            return "update_user_failed";
+        }
+        // TODO - Vi behöver H2 databasen för att fortsätta här
+        logger.debug("Updates user password for " + MaskingUtils.anonymize(userDTO.getEmail()));
+
+        return "update_user_success";
+    }
+
+
     @GetMapping("/logout_success")
     public String logOutSuccess() {
         logger.debug("Logged out successfully");
-        return "/logout_success";
+        return "logout_success";
     }
 }
