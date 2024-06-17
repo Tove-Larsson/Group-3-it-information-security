@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>Update user password</title>
+
+</head>
+<body>
+
+Update user password <br>
+
+<form action="#" th:action="@{/update_user}" method="post" th:object="${user}">
+
+    <label>Email:</label>
+    <input type="email" th:field="*{email}"> <br>
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</span> <br>
+
+    <label>New password:</label>
+    <input type="password" th:field="*{password}"> <br>
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</span> <br>
+
+    <button type="submit">Update user password</button>
+
+</form>
+
+</body>
+</html>
