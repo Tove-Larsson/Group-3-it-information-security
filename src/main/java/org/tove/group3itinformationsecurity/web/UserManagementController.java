@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
@@ -91,40 +92,12 @@ public class UserManagementController {
     }
 
     @PostMapping("/register")
-    public String registerForm(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
+    public String registerForm(UserDTO userDTO, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) return "register";
-        if (!Objects.equals(userDTO.getRole(), "USER")) return "register";
-
-//        String escapedFirstName = HtmlUtils.htmlEscape(userDTO.getFirstName());
-//        String escapedLastName = HtmlUtils.htmlEscape(userDTO.getLastName());
-//        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
-//        String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
-//        String escapedRole = HtmlUtils.htmlEscape(userDTO.getRole());
-//
-//        String encodedPassword = passwordEncoder.encode(escapedPassword);
-//
-//        // TODO - H2 FROM HERE
-//
-//        AppUser appUser = new AppUser();
-//        appUser.setFirstName(escapedFirstName);
-//        appUser.setLastName(escapedLastName);
-//        appUser.setAge(userDTO.getAge());
-//        appUser.setEmail(escapedEmail);
-//        appUser.setPassword(encodedPassword);
-//        appUser.setRole(escapedRole);
-//
-//        userRepository.save(appUser);
-//        System.out.println(userRepository.findByEmail(escapedEmail).getFirstName());
-//        UserDetails user = User.builder()
-//                .username(escapedEmail)
-//                .password(encodedPassword)
-//                .roles("USER")
-//                .build();
-//        inMemoryUserDetailsManager.createUser(user);
+        String direction = userService.registerUser(userDTO, bindingResult);
         logger.debug("Registered a new user with email: " + MaskingUtils.anonymize(userDTO.getEmail()));
 
-        return "register_success";
+        return direction;
 
     }
 
@@ -136,7 +109,7 @@ public class UserManagementController {
     }
 
     @PostMapping("/update_user")
-    public String updateForm(@Valid @ModelAttribute("user")UserDTO userDTO, BindingResult bindingResult) {
+    public String updateForm(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors("email")) return "update_user";
         if (bindingResult.hasFieldErrors("password")) return "update_user";
 //
