@@ -1,10 +1,17 @@
 package org.tove.group3itinformationsecurity.service;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.tove.group3itinformationsecurity.model.AppUser;
 import org.tove.group3itinformationsecurity.repository.UserRepository;
+import org.springframework.security.core.userdetails.User;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -14,11 +21,24 @@ public class CustomUserDetailsService implements UserDetailsService {
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    private Collection<? extends GrantedAuthority> getAuthorities(String role) {
+        return Collections.singletonList(new SimpleGrantedAuthority(role));
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        userRepository.findByEmail(username);
-        // TODO - ta emot appuser skapa en spring user & returnera
-        return null;
+       AppUser appUser = userRepository.findByEmail(username);
+       if (appUser == null) {
+           throw new UsernameNotFoundException("No user found with username: " + username);
+       }
+        Collection<? extends GrantedAuthority> authorities = getAuthorities(appUser.getRole());
+
+       return new User(appUser.getEmail(),
+               appUser.getPassword(),
+               true,
+               true,
+               true,
+               true,
+               authorities);
     }
 }
