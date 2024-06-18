@@ -92,12 +92,15 @@ public class UserManagementController {
     }
 
     @PostMapping("/register")
-    public String registerForm(UserDTO userDTO, BindingResult bindingResult) {
+    public String registerForm(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
 
-        String direction = userService.registerUser(userDTO, bindingResult);
+        if (bindingResult.hasErrors()) return "register";
+        if (!Objects.equals(userDTO.getRole(), "USER")) return "register";
+
+        userService.registerUser(userDTO);
         logger.debug("Registered a new user with email: " + MaskingUtils.anonymize(userDTO.getEmail()));
 
-        return direction;
+        return "register_success";
 
     }
 
