@@ -71,17 +71,21 @@ public class UserManagementController {
             System.out.println("Bindingresult: " + bindingResult);
             return "remove_user";
         }
+        try {
 
-        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
-//
-//        if (!inMemoryUserDetailsManager.userExists(escapedEmail)) {
-//            logger.warn("The user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " could not be found");
-//            return "remove_user_failed";
-//        }
-//        logger.debug("The action of removing the user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " is in process");
-//        inMemoryUserDetailsManager.deleteUser(escapedEmail);
+            if (!userService.userExists(userDTO.getEmail())) {
+                return "remove_user_failed";
+            }
 
-        return "remove_user_success";
+            userService.removeUser(userDTO.getEmail());
+
+            logger.debug("The action of removing the user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " is in process");
+
+            return "remove_user_success";
+        } catch (UsernameNotFoundException e) {
+            logger.warn("Something went wrong ", e);
+            return "remove_user_failed";
+        }
     }
 
     @GetMapping("/register")

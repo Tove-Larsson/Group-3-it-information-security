@@ -2,6 +2,7 @@ package org.tove.group3itinformationsecurity.service;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -63,6 +64,16 @@ public class UserService {
         appUser.setRole(escapedRole);
 
         userRepository.save(appUser);
+
+    }
+
+    public void removeUser(String email) throws UsernameNotFoundException {
+        String escapedEmail = HtmlUtils.htmlEscape(email);
+        userRepository.delete(userRepository.findByEmail(escapedEmail));
+    }
+
+    public boolean userExists(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email) != null;
 
     }
 }
