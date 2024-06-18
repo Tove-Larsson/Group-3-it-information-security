@@ -76,4 +76,12 @@ public class UserService {
         return userRepository.findByEmail(email) != null;
 
     }
+
+    public void updatePassword(UserDTO userDTO) {
+
+        AppUser user = userRepository.findByEmail(userDTO.getEmail());
+        String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(escapedPassword));
+        userRepository.save(user);
+    }
 }
