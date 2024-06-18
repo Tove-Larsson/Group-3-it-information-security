@@ -17,6 +17,7 @@ import org.springframework.web.util.HtmlUtils;
 import org.tove.group3itinformationsecurity.dto.UserDTO;
 import org.tove.group3itinformationsecurity.model.AppUser;
 import org.tove.group3itinformationsecurity.repository.UserRepository;
+import org.tove.group3itinformationsecurity.service.UserService;
 import org.tove.group3itinformationsecurity.utils.MaskingUtils;
 
 import java.util.Objects;
@@ -29,16 +30,17 @@ import java.util.Objects;
 @Controller
 public class UserManagementController {
 
-    PasswordEncoder passwordEncoder;
-    UserRepository userRepository;
-    InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    UserService userService;
+    //PasswordEncoder passwordEncoder;
+    //UserRepository userRepository;
+
 
     private static final Logger logger = LoggerFactory.getLogger(UserManagementController.class);
 
-    public UserManagementController(PasswordEncoder passwordEncoder, InMemoryUserDetailsManager inMemoryUserDetailsManager, UserRepository userRepository) {
-        this.passwordEncoder = passwordEncoder;
-        this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
-        this.userRepository = userRepository;
+    public UserManagementController(UserService userService) {
+        this.userService = userService;
+        //this.passwordEncoder = passwordEncoder;
+        //this.userRepository = userRepository;
     }
 
     @GetMapping("/")
@@ -70,13 +72,13 @@ public class UserManagementController {
         }
 
         String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
-
-        if (!inMemoryUserDetailsManager.userExists(escapedEmail)) {
-            logger.warn("The user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " could not be found");
-            return "remove_user_failed";
-        }
-        logger.debug("The action of removing the user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " is in process");
-        inMemoryUserDetailsManager.deleteUser(escapedEmail);
+//
+//        if (!inMemoryUserDetailsManager.userExists(escapedEmail)) {
+//            logger.warn("The user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " could not be found");
+//            return "remove_user_failed";
+//        }
+//        logger.debug("The action of removing the user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " is in process");
+//        inMemoryUserDetailsManager.deleteUser(escapedEmail);
 
         return "remove_user_success";
     }
@@ -94,26 +96,26 @@ public class UserManagementController {
         if (bindingResult.hasErrors()) return "register";
         if (!Objects.equals(userDTO.getRole(), "USER")) return "register";
 
-        String escapedFirstName = HtmlUtils.htmlEscape(userDTO.getFirstName());
-        String escapedLastName = HtmlUtils.htmlEscape(userDTO.getLastName());
-        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
-        String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
-        String escapedRole = HtmlUtils.htmlEscape(userDTO.getRole());
-
-        String encodedPassword = passwordEncoder.encode(escapedPassword);
-
-        // TODO - H2 FROM HERE
-
-        AppUser appUser = new AppUser();
-        appUser.setFirstName(escapedFirstName);
-        appUser.setLastName(escapedLastName);
-        appUser.setAge(userDTO.getAge());
-        appUser.setEmail(escapedEmail);
-        appUser.setPassword(encodedPassword);
-        appUser.setRole(escapedRole);
-
-        userRepository.save(appUser);
-        System.out.println(userRepository.findByEmail(escapedEmail).getFirstName());
+//        String escapedFirstName = HtmlUtils.htmlEscape(userDTO.getFirstName());
+//        String escapedLastName = HtmlUtils.htmlEscape(userDTO.getLastName());
+//        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
+//        String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
+//        String escapedRole = HtmlUtils.htmlEscape(userDTO.getRole());
+//
+//        String encodedPassword = passwordEncoder.encode(escapedPassword);
+//
+//        // TODO - H2 FROM HERE
+//
+//        AppUser appUser = new AppUser();
+//        appUser.setFirstName(escapedFirstName);
+//        appUser.setLastName(escapedLastName);
+//        appUser.setAge(userDTO.getAge());
+//        appUser.setEmail(escapedEmail);
+//        appUser.setPassword(encodedPassword);
+//        appUser.setRole(escapedRole);
+//
+//        userRepository.save(appUser);
+//        System.out.println(userRepository.findByEmail(escapedEmail).getFirstName());
 //        UserDetails user = User.builder()
 //                .username(escapedEmail)
 //                .password(encodedPassword)
@@ -137,18 +139,18 @@ public class UserManagementController {
     public String updateForm(@Valid @ModelAttribute("user")UserDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors("email")) return "update_user";
         if (bindingResult.hasFieldErrors("password")) return "update_user";
+//
+//        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
+//        String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
+//
+//        String encodedPassword = passwordEncoder.encode(escapedPassword);
 
-        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
-        String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
-
-        String encodedPassword = passwordEncoder.encode(escapedPassword);
-
-        if (!inMemoryUserDetailsManager.userExists(escapedEmail)) {
-            logger.warn("The user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " could not be found");
-            return "update_user_failed";
-        }
-        // TODO - Vi behöver H2 databasen för att fortsätta här
-        logger.debug("Updates user password for " + MaskingUtils.anonymize(userDTO.getEmail()));
+//        if (!inMemoryUserDetailsManager.userExists(escapedEmail)) {
+//            logger.warn("The user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " could not be found");
+//            return "update_user_failed";
+//        }
+//        // TODO - Vi behöver H2 databasen för att fortsätta här
+//        logger.debug("Updates user password for " + MaskingUtils.anonymize(userDTO.getEmail()));
 
         return "update_user_success";
     }

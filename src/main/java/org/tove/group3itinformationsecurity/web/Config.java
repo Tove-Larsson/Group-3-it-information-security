@@ -2,6 +2,8 @@ package org.tove.group3itinformationsecurity.web;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.tove.group3itinformationsecurity.service.CustomUserDetailsService;
 
 /**
  * Konfigurationsklass för appens inställningar kring säkerhet och hantering av användare.
@@ -22,10 +25,24 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class Config {
 
+    CustomUserDetailsService customUserDetailsService;
+
+    public Config(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+//  @Bean
+//  public AuthenticationProvider authenticationProvider() {
+//      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//      authProvider.setUserDetailsService(customUserDetailsService);
+//      authProvider.setPasswordEncoder(passwordEncoder());
+//      return authProvider;
+//  }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,9 +55,9 @@ public class Config {
                                         "/register",
                                         "/register_success",
                                         "/admin",
-                                        "remove_user",
-                                        "remove_user_success",
-                                        "remove_user_failed").hasRole("ADMIN")
+                                        "/remove_user",
+                                        "/remove_user_success",
+                                        "/remove_user_failed").hasRole("ADMIN")
                                 .anyRequest().authenticated()
 
                 )
@@ -65,17 +82,4 @@ public class Config {
 
     }
 
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-
-        UserDetails user = User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("adminpass"))
-                .roles("ADMIN")
-                .build();
-        userDetailsService.createUser(user);
-
-        return userDetailsService;
-    }
 }

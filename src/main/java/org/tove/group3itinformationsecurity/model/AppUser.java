@@ -73,6 +73,6 @@ public class AppUser {
     }
 
     public void setRole(String role) {
-        this.role = role;
+        this.role = "ROLE_" + role;
     }
 }

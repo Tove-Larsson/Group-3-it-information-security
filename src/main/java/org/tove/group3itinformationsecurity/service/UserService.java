@@ -13,7 +13,6 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        super();
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -22,6 +21,9 @@ public class UserService {
     public void initialDatabasePost() {
 
         AppUser admin = new AppUser();
+        admin.setFirstName("Arne");
+        admin.setLastName("Barne");
+        admin.setAge(12);
         admin.setEmail("admin");
         admin.setPassword(passwordEncoder.encode("password"));
         admin.setRole("ADMIN");
@@ -31,8 +33,8 @@ public class UserService {
         user.setFirstName("Clark");
         user.setLastName("Kent");
         user.setAge(36);
-        user.setEmail("clark.kent@smallvilehigh.com");
-        user.setPassword(passwordEncoder.encode("lanalang"));
+        user.setEmail("clark@gmail.com");
+        user.setPassword(passwordEncoder.encode("lana"));
         user.setRole("USER");
         userRepository.save(user);
     }
