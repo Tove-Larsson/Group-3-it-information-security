@@ -12,7 +12,7 @@ public class UserDTO {
     @NotBlank(message = "Last name cannot be blank")
     private String lastName;
 
-    @NotBlank(message = "Age cannot be blank")
+    //@NotBlank(message = "Age cannot be blank")
     private int age;
 
     @Email(message = "Please provide a valid email address")
