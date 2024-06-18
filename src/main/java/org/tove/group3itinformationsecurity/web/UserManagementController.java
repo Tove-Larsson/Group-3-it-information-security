@@ -117,9 +117,14 @@ public class UserManagementController {
 
     @PostMapping("/update_user")
     public String updateForm(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
+
         if (bindingResult.hasFieldErrors("email")) return "update_user";
         if (bindingResult.hasFieldErrors("password")) return "update_user";
-//
+
+        if (!userService.userExists(userDTO.getEmail())) return "update_user_failed";
+
+        userService.updatePassword(userDTO);
+
 //        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
 //        String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
 //
@@ -130,7 +135,7 @@ public class UserManagementController {
 //            return "update_user_failed";
 //        }
 //        // TODO - Vi behöver H2 databasen för att fortsätta här
-//        logger.debug("Updates user password for " + MaskingUtils.anonymize(userDTO.getEmail()));
+        logger.debug("Updates user password for " + MaskingUtils.anonymize(userDTO.getEmail()));
 
         return "update_user_success";
     }
