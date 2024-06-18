@@ -1,10 +1,17 @@
 package org.tove.group3itinformationsecurity.service;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.util.HtmlUtils;
+import org.tove.group3itinformationsecurity.dto.UserDTO;
 import org.tove.group3itinformationsecurity.model.AppUser;
 import org.tove.group3itinformationsecurity.repository.UserRepository;
+
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -37,5 +44,30 @@ public class UserService {
         user.setPassword(passwordEncoder.encode("lana"));
         user.setRole("USER");
         userRepository.save(user);
+    }
+
+    public String registerUser(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) return "register";
+        if (!Objects.equals(userDTO.getRole(), "USER")) return "register";
+
+        String escapedFirstName = HtmlUtils.htmlEscape(userDTO.getFirstName());
+        String escapedLastName = HtmlUtils.htmlEscape(userDTO.getLastName());
+        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
+        String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
+        String escapedRole = HtmlUtils.htmlEscape(userDTO.getRole());
+
+
+        AppUser appUser = new AppUser();
+        appUser.setFirstName(escapedFirstName);
+        appUser.setLastName(escapedLastName);
+        appUser.setAge(userDTO.getAge());
+        appUser.setEmail(escapedEmail);
+        appUser.setPassword(passwordEncoder.encode(escapedPassword));
+        appUser.setRole(escapedRole);
+
+        userRepository.save(appUser);
+
+        return "register_success";
     }
 }
