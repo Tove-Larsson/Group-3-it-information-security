@@ -2,6 +2,11 @@ package org.tove.group3itinformationsecurity.model;
 
 import jakarta.persistence.*;
 
+/**
+ * AppUser är en entitetsklass som representerar en användare i databasen.
+ * Denna klass används för att mappa användarrelaterad data till tabellen "users"
+ * i databasen med hjälp av JPA.
+ */
 @Entity
 @Table(name = "users")
 public class AppUser {

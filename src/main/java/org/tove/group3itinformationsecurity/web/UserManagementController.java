@@ -24,24 +24,18 @@ import org.tove.group3itinformationsecurity.utils.MaskingUtils;
 import java.util.Objects;
 
 /**
- * Kontrollerklass för hantering av webbinteraktioner och användarhantering.,
- * Innehåller metoder för att navigera och hantera olika sidor och formulär inom applikationen.
- * Använder PasswordEncoder för lösenordskryptering och InMemoryUserDetailsManager för användarhantering i minnet.
+ * Denna klass skapar endppints som hanterar HTTP-förfrågningar för användarhantering,
+ * inklusive sidor och formulär för att registrera, ta bort och uppdatera användare.
  */
-@Controller
+ @Controller
 public class UserManagementController {
 
     UserService userService;
-    //PasswordEncoder passwordEncoder;
-    //UserRepository userRepository;
-
 
     private static final Logger logger = LoggerFactory.getLogger(UserManagementController.class);
 
     public UserManagementController(UserService userService) {
         this.userService = userService;
-        //this.passwordEncoder = passwordEncoder;
-        //this.userRepository = userRepository;
     }
 
     @GetMapping("/")
@@ -62,7 +56,6 @@ public class UserManagementController {
         logger.debug("Going to remove user page (only available for admin)");
         return "remove_user";
     }
-
 
     @PostMapping("/remove_user")
     public String removeUserForm(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
@@ -126,21 +119,10 @@ public class UserManagementController {
 
         userService.updatePassword(userDTO);
 
-//        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
-//        String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
-//
-//        String encodedPassword = passwordEncoder.encode(escapedPassword);
-
-//        if (!inMemoryUserDetailsManager.userExists(escapedEmail)) {
-//            logger.warn("The user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " could not be found");
-//            return "update_user_failed";
-//        }
-//        // TODO - Vi behöver H2 databasen för att fortsätta här
         logger.debug("Updates user password for " + MaskingUtils.anonymize(userDTO.getEmail()));
 
         return "update_user_success";
     }
-
 
     @GetMapping("/logout_success")
     public String logOutSuccess() {
