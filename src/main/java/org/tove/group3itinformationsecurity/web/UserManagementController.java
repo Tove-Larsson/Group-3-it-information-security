@@ -60,20 +60,11 @@ public class UserManagementController {
     @PostMapping("/remove_user")
     public String removeUserForm(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
 
-        if (bindingResult.hasFieldErrors("email")) {
-            System.out.println("Bindingresult: " + bindingResult);
-            return "remove_user";
-        }
+        if (bindingResult.hasFieldErrors("email")) return "remove_user";
+
         try {
-
-            if (!userService.userExists(userDTO.getEmail())) {
-                return "remove_user_failed";
-            }
-
-            userService.removeUser(userDTO.getEmail());
-
+            userService.removeUser(userService.getAppUser(HtmlUtils.htmlEscape(userDTO.getEmail())));
             logger.debug("The action of removing the user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " is in process");
-
             return "remove_user_success";
         } catch (UsernameNotFoundException e) {
             logger.warn("Something went wrong ", e);

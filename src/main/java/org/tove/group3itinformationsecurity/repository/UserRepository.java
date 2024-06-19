@@ -8,6 +8,6 @@ import org.tove.group3itinformationsecurity.model.AppUser;
 @Repository
 public interface UserRepository extends JpaRepository<AppUser, Long> {
 
-    AppUser findByEmail(String email) throws UsernameNotFoundException;
+    AppUser findByEmail(String email);
 
 }
