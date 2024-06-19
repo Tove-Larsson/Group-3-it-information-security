@@ -72,7 +72,11 @@ public class UserService {
 
     }
 
-    public void removeUser(AppUser appUser) {
+    public void removeUser(UserDTO userDTO) throws UsernameNotFoundException {
+
+        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
+        AppUser appUser = getAppUser(escapedEmail);
+
         userRepository.delete(appUser);
     }
 

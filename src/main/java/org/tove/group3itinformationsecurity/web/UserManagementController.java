@@ -63,7 +63,7 @@ public class UserManagementController {
         if (bindingResult.hasFieldErrors("email")) return "remove_user";
 
         try {
-            userService.removeUser(userService.getAppUser(HtmlUtils.htmlEscape(userDTO.getEmail())));
+            userService.removeUser(userDTO);
             logger.debug("The action of removing the user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " is in process");
             return "remove_user_success";
         } catch (UsernameNotFoundException e) {
