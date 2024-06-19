@@ -100,6 +100,7 @@ public class UserManagementController {
 
         if (bindingResult.hasErrors()) return "register";
         if (!Objects.equals(userDTO.getRole(), "USER")) return "register";
+        if (userService.userExists(userDTO.getEmail())) return "register_failed";
 
         userService.registerUser(userDTO);
         logger.debug("Registered a new user with email: " + MaskingUtils.anonymize(userDTO.getEmail()));
