@@ -63,7 +63,7 @@ public class UserManagementController {
         if (bindingResult.hasFieldErrors("email")) return "remove_user";
 
         try {
-            userService.removeUser(userService.getAppUser(HtmlUtils.htmlEscape(userDTO.getEmail())));
+            userService.removeUser(userDTO);
             logger.debug("The action of removing the user with email: " + MaskingUtils.anonymize(userDTO.getEmail()) + " is in process");
             return "remove_user_success";
         } catch (UsernameNotFoundException e) {
@@ -109,17 +109,16 @@ public class UserManagementController {
         if (bindingResult.hasFieldErrors("email")) return "update_user";
         if (bindingResult.hasFieldErrors("password")) return "update_user";
 
-        if (!userService.userExists(userDTO.getEmail())) {
+        try {
+            userService.updatePassword(userDTO);
+            logger.debug("Updates user password for " + MaskingUtils.anonymize(userDTO.getEmail()));
+            return "update_user_success";
+
+        } catch (UsernameNotFoundException e) {
             // Not masking this one since the user does not exist and confirm input in logger
             logger.warn("Update failed, the user does not exist: " + userDTO.getEmail());
             return "update_user_failed";
         }
-
-        userService.updatePassword(userDTO);
-
-        logger.debug("Updates user password for " + MaskingUtils.anonymize(userDTO.getEmail()));
-
-        return "update_user_success";
     }
 
     @GetMapping("/logout_success")
