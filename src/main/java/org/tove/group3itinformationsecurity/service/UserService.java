@@ -30,7 +30,8 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostConstruct
+    // TODO OBS - @PostConstruct annotation kommenteras bort vid testning!!!
+    //@PostConstruct
     public void initialDatabasePost() {
 
         AppUser admin = new AppUser();

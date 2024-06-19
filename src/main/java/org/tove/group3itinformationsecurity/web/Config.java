@@ -50,7 +50,7 @@ public class Config {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth
 
@@ -62,15 +62,15 @@ public class Config {
                                 .anyRequest().authenticated()
 
                 )
-                // .httpBasic(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
 
                 // TA BORT VID TEST
-                .formLogin(formLogin ->
-                        formLogin
-                                .defaultSuccessUrl("/", true)
-                                .failureUrl("/login?error=true")
-                                .permitAll()
-                )
+//                .formLogin(formLogin ->
+//                        formLogin
+//                                .defaultSuccessUrl("/", true)
+//                                .failureUrl("/login?error=true")
+//                                .permitAll()
+//                )
 
                 .logout(logout ->
                         logout
