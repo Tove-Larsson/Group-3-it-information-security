@@ -81,11 +81,13 @@ public class UserService {
 
     }
 
-    public void updatePassword(UserDTO userDTO) {
+    public void updatePassword(UserDTO userDTO) throws UsernameNotFoundException {
 
-        AppUser user = userRepository.findByEmail(userDTO.getEmail());
         String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
+        String escapedEmail = HtmlUtils.htmlEscape(userDTO.getEmail());
+        AppUser user = getAppUser(escapedEmail);
         user.setPassword(passwordEncoder.encode(escapedPassword));
+
         userRepository.save(user);
     }
 
