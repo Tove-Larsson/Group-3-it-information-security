@@ -4,7 +4,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class UserDTO {
+/**
+ * DTO-klassen används för att överföra användarinformation mellan olika lager av applikationen.
+ * Denna klass innehåller valideringsregler för att säkerställa att användarinformationen är
+ * korrekt innan den skickas vidare till andra delar av systemet.
+ */
+ public class UserDTO {
 
     @NotBlank(message = "First name cannot be blank")
     private String firstName;
@@ -12,7 +17,6 @@ public class UserDTO {
     @NotBlank(message = "Last name cannot be blank")
     private String lastName;
 
-    //@NotBlank(message = "Age cannot be blank")
     private int age;
 
     @Email(message = "Please provide a valid email address")
@@ -25,7 +29,6 @@ public class UserDTO {
 
     @NotBlank(message = "Role cannot be blank")
     private String role;
-
 
     public String getEmail() {
         return email;

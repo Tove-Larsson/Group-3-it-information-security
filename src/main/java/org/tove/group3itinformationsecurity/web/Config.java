@@ -2,8 +2,6 @@ package org.tove.group3itinformationsecurity.web;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,9 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.tove.group3itinformationsecurity.service.CustomUserDetailsService;
 
 /**
- * Konfigurationsklass för appens inställningar kring säkerhet och hantering av användare.
- * Klassen innehåller en PasswordEncoder som krypterar lösenord, en SecurityFilterChain där vi skapar
- * regler för åtkomst till olika endpoints samt så skapar vi en user av rollen Admin som sparas InMemory
+ * Config-klassen konfigurerar Spring Security för applikationen.
+ * Denna klass aktiverar webbsäkerhet, definierar en passwordEncoder
+ * och sätter upp securityFilterChain för att hantera autentisering
+ * och auktorisering av HTTP-förfrågningar.
  */
 @EnableWebSecurity
 @Configuration
@@ -30,24 +29,28 @@ public class Config {
     public Config(CustomUserDetailsService customUserDetailsService) {
         this.customUserDetailsService = customUserDetailsService;
     }
-
+    /**
+     * Denna Bean returnerar en PasswordEncoder av typen Bcrypt.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//  @Bean
-//  public AuthenticationProvider authenticationProvider() {
-//      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//      authProvider.setUserDetailsService(customUserDetailsService);
-//      authProvider.setPasswordEncoder(passwordEncoder());
-//      return authProvider;
-//  }
-
+    /**
+     * Konfigurerar säkerhetsinställningar för HTTP-förfrågningar.
+     * Vi bestämmer i denna vilken roll som har åtkomst till vissa endpoints.
+     * Vi använder sedan Springs inbyggda formLogin för att konfigurera inloggning i appen.
+     * På slutet använder vi oss av Springs logOut för att konfigurera utloggning ur appen.
+     * <br><br>
+     * Vid testning:
+     * Disablea csrf som per default alltid är aktiverad.
+     * Använda oss av httpbasic i stället för formLogin.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-//                .csrf(AbstractHttpConfigurer::disable) LÄGG TILLBAKA VID TEST
+                // .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth
 
@@ -59,7 +62,7 @@ public class Config {
                                 .anyRequest().authenticated()
 
                 )
-                // .httpBasic(Customizer.withDefaults()) LÄGG TILLBAKA VID TEST
+                // .httpBasic(Customizer.withDefaults())
 
                 // TA BORT VID TEST
                 .formLogin(formLogin ->

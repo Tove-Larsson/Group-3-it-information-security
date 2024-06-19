@@ -13,7 +13,14 @@ import org.springframework.security.core.userdetails.User;
 import java.util.Collection;
 import java.util.Collections;
 
-@Service
+/**
+ * CustomUserDetailsService är en implementering av UserDetailsService
+ * som används av Spring Security för att ladda användarspecifika data.
+ * Denna klass ansvarar för att hämta användarinformation från databasen
+ * baserat på användarnamnet (email) och skapa ett UserDetails-objekt som
+ * används av Spring Security för autentisering och auktorisering.
+ */
+ @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     UserRepository userRepository;

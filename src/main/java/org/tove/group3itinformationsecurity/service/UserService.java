@@ -14,7 +14,12 @@ import org.tove.group3itinformationsecurity.repository.UserRepository;
 
 import java.util.Objects;
 
-@Service
+/**
+ * UserService hanterar affärslogiken för användarhantering, inklusive skapande,
+ * borttagning och uppdatering av användare (CRUD). Den använder UserRepository för
+ * databasinteraktion och PasswordEncoder för att kryptera lösenord.
+ */
+ @Service
 public class UserService {
 
     UserRepository userRepository;
