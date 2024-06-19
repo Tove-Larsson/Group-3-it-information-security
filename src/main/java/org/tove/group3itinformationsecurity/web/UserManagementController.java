@@ -93,7 +93,10 @@ public class UserManagementController {
 
         if (bindingResult.hasErrors()) return "register";
         if (!Objects.equals(userDTO.getRole(), "USER")) return "register";
-        if (userService.userExists(userDTO.getEmail())) return "register_failed";
+        if (userService.userExists(userDTO.getEmail())) {
+            logger.warn("Register failed, the user already exists: " + MaskingUtils.anonymize(userDTO.getEmail()));
+            return "register_failed";
+        }
 
         userService.registerUser(userDTO);
         logger.debug("Registered a new user with email: " + MaskingUtils.anonymize(userDTO.getEmail()));
@@ -115,7 +118,11 @@ public class UserManagementController {
         if (bindingResult.hasFieldErrors("email")) return "update_user";
         if (bindingResult.hasFieldErrors("password")) return "update_user";
 
-        if (!userService.userExists(userDTO.getEmail())) return "update_user_failed";
+        if (!userService.userExists(userDTO.getEmail())) {
+            // Not masking this one since the user does not exist and confirm input in logger
+            logger.warn("Update failed, the user does not exist: " + userDTO.getEmail());
+            return "update_user_failed";
+        }
 
         userService.updatePassword(userDTO);
 
