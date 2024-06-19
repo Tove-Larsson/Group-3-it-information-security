@@ -72,9 +72,8 @@ public class UserService {
 
     }
 
-    public void removeUser(String email) throws UsernameNotFoundException {
-        String escapedEmail = HtmlUtils.htmlEscape(email);
-        userRepository.delete(userRepository.findByEmail(escapedEmail));
+    public void removeUser(AppUser appUser) {
+        userRepository.delete(appUser);
     }
 
     public boolean userExists(String email) throws UsernameNotFoundException {
@@ -88,5 +87,12 @@ public class UserService {
         String escapedPassword = HtmlUtils.htmlEscape(userDTO.getPassword());
         user.setPassword(passwordEncoder.encode(escapedPassword));
         userRepository.save(user);
+    }
+
+    public AppUser getAppUser(String email) throws UsernameNotFoundException {
+        if (userRepository.findByEmail(email) == null) {
+            throw new UsernameNotFoundException("No user found with username: " + email);
+        }
+        return userRepository.findByEmail(email);
     }
 }
