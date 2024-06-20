@@ -1,7 +1,6 @@
 package org.tove.group3itinformationsecurity.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.tove.group3itinformationsecurity.model.AppUser;
 

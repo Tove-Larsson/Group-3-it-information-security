@@ -1,18 +1,13 @@
 package org.tove.group3itinformationsecurity.service;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.validation.Valid;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.util.HtmlUtils;
 import org.tove.group3itinformationsecurity.dto.UserDTO;
 import org.tove.group3itinformationsecurity.model.AppUser;
 import org.tove.group3itinformationsecurity.repository.UserRepository;
-
-import java.util.Objects;
 
 /**
  * UserService hanterar affärslogiken för användarhantering, inklusive skapande,
