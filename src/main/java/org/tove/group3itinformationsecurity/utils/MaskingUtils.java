@@ -17,11 +17,11 @@ public class MaskingUtils {
         int atIndex = email.indexOf('@');
         if (atIndex == -1) return email;
 
-        String repeatedString = IntStream
+        String maskedPart = IntStream
                 .range(0, atIndex - 2)
                 .mapToObj(i -> "*")
                 .collect(Collectors.joining());
 
-        return email.charAt(0) + repeatedString + email.substring(atIndex - 1);
+        return email.charAt(0) + maskedPart + email.substring(atIndex - 1);
     }
 }
